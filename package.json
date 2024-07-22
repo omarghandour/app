@@ -6,10 +6,18 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.1.0",
     "@elysiajs/eden": "^1.1.1",
+    "@elysiajs/jwt": "^1.1.0",
     "@elysiajs/swagger": "^1.1.0",
+    "busboy": "^1.6.0",
     "elysia": "latest",
-    "mongoose": "^8.5.1"
+    "formidable": "^3.5.1",
+    "gridfs-stream": "^1.1.1",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.1",
+    "multer": "^1.4.5-lts.1",
+    "multer-gridfs-storage": "^5.0.2"
   },
   "devDependencies": {
     "bun-types": "latest"
