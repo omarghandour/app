@@ -4,10 +4,19 @@ import { users } from "../routes/usersRoutes";
 import connectDB from "../db/connectDB";
 import { ss } from "../routes/filesRoutes";
 import cors from "@elysiajs/cors";
-
+import jwt from "@elysiajs/jwt";
+import { tasks } from "../routes/tasksRoutes";
+const tokensec: any = process.env.JWT_SECRET;
 const app = new Elysia()
   .get("/", () => "Hello Elysia")
   .listen(3000)
+  .use(
+    jwt({
+      name: "jwt",
+      secret: tokensec,
+      exp: "15d",
+    })
+  )
   .use(
     cors({
       origin: "*",
@@ -16,7 +25,8 @@ const app = new Elysia()
   )
   .use(swagger())
   .use(users)
-  .use(ss);
+  .use(ss)
+  .use(tasks);
 connectDB();
 
 console.log(

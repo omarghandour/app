@@ -25,6 +25,11 @@ const TaskSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     updatedAt: {
       type: Date,
       default: Date.now,

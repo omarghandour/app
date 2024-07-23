@@ -1,22 +1,51 @@
 import Elysia, { t } from "elysia";
 import jwt from "@elysiajs/jwt";
 
-import { createUser, loginUser } from "../controllers/usersControllers";
+import { createUser, loginUser, signUP } from "../controllers/usersControllers";
 const tokensec: any = process.env.JWT_SECRET;
 
 export const users = new Elysia({ prefix: "/users" });
 users
-
-  .post("/", ({ jwt, body, set, cookie: { auth } }: any) =>
-    createUser(body, set, jwt, auth)
+  .use(
+    jwt({
+      name: "jwt",
+      secret: tokensec,
+      exp: "15d",
+    })
   )
   .post(
+    "/",
+    ({ cookie: { auth }, jwt, body, set }: any) =>
+      createUser(body, set, jwt, auth),
+    {
+      body: t.Object({
+        name: t.MaybeEmpty(t.String()),
+        username: t.String(),
+        role: t.String(),
+        email: t.String(),
+        password: t.String(),
+      }),
+    }
+  ) // no roles register
+  .post(
     "/login",
-    ({ body, set, jwt, cookie: { auth } }: any) =>
+    ({ cookie: { auth }, body, set, jwt }: any) =>
       loginUser(body, set, jwt, auth),
     {
       body: t.Object({
         username: t.String(),
+        password: t.String(),
+      }),
+    }
+  ) // no roles login
+  .post(
+    "/signup",
+    ({ cookie: { auth }, body, set, jwt }: any) => signUP(body, set, jwt, auth),
+    {
+      body: t.Object({
+        name: t.MaybeEmpty(t.String()),
+        username: t.String(),
+        email: t.String(),
         password: t.String(),
       }),
     }
