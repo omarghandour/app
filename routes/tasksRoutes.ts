@@ -1,5 +1,10 @@
 import Elysia, { t } from "elysia";
-import { createTask, updateTask } from "../controllers/tasksControllers";
+import {
+  addComment,
+  createTask,
+  deleteComment,
+  updateTask,
+} from "../controllers/tasksControllers";
 
 export const tasks = new Elysia({ prefix: "/tasks" });
 
@@ -29,4 +34,17 @@ tasks
         assignedTo: t.String(),
       }),
     }
+  )
+  .post(
+    "/addComment/:taskID/:userID",
+    ({ body, set, params }) => addComment(body, set, params),
+    {
+      body: t.Object({
+        CName: t.String(),
+        content: t.String(),
+      }),
+    }
+  )
+  .delete("/deleteComment/:CID", ({ params, set }) =>
+    deleteComment(params, set)
   );

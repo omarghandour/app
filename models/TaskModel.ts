@@ -15,6 +15,20 @@ const TaskSchema = new mongoose.Schema(
     deadlineDate: {
       type: Date,
     },
+    comments: [
+      {
+        CName: { type: String, required: true },
+        content: {
+          type: String,
+          required: true,
+        },
+        userID: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+      },
+    ],
     status: {
       type: String,
       enum: ["pending", "in progress", "completed"],
