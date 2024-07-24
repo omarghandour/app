@@ -1,4 +1,7 @@
 import Task from "../models/TaskModel";
+import User from "../models/UserModel";
+
+// tasks
 
 const createTask = async (body: any, set: any, params: any) => {
   const { title, description, attachment, deadlineDate, assignedTo } = body;
@@ -47,6 +50,35 @@ const updateTask = async (body: any, set: any, params: any) => {
     return { message: "Failed to update task" };
   }
 };
+
+const deleteTask = async (set: any, params: any) => {
+  const { userID, taskID } = params;
+  try {
+    const user = await User.findById(userID);
+    if (!user || user.role === "user") {
+      set.status = 400;
+      return { message: "User not found or it's not admin" };
+    }
+    console.log(taskID);
+
+    const task = await Task.findById(taskID);
+    if (!task) {
+      set.status = 404;
+      return { message: "Task not found" };
+    }
+    await task.deleteOne();
+    set.status = 200;
+    return { message: "Task deleted successfully" };
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to delete task" };
+  }
+};
+
+//
+//comments
+//
 const addComment = async (body: any, set: any, params: any) => {
   const { CName, content } = body;
   const { taskID, userID } = params;
@@ -85,4 +117,4 @@ const deleteComment = async (params: any, set: any) => {
     return { message: "Failed to delete comment" };
   }
 };
-export { createTask, updateTask, addComment, deleteComment };
+export { createTask, updateTask, deleteTask, addComment, deleteComment };

@@ -3,6 +3,7 @@ import {
   addComment,
   createTask,
   deleteComment,
+  deleteTask,
   updateTask,
 } from "../controllers/tasksControllers";
 
@@ -21,7 +22,7 @@ tasks
         assignedTo: t.String(),
       }),
     }
-  )
+  ) // create a new task
   .patch(
     "/updateTask/:id",
     ({ body, set, params }) => updateTask(body, set, params),
@@ -34,6 +35,9 @@ tasks
         assignedTo: t.String(),
       }),
     }
+  ) // update a task by id
+  .delete("/delete/:userID/:taskID", ({ set, params }) =>
+    deleteTask(set, params)
   )
   .post(
     "/addComment/:taskID/:userID",

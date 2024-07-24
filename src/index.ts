@@ -8,7 +8,16 @@ import jwt from "@elysiajs/jwt";
 import { tasks } from "../routes/tasksRoutes";
 const tokensec: any = process.env.JWT_SECRET;
 const app = new Elysia()
-  .get("/", () => "Hello Elysia")
+  .get("/", ({ cookie: { auth }, set }) => {
+    auth.set({
+      value: "await token",
+      httpOnly: true,
+      maxAge: 15 * 24 * 60 * 60,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
+  })
   .listen(3000)
   .use(
     jwt({
@@ -19,7 +28,7 @@ const app = new Elysia()
   )
   .use(
     cors({
-      origin: "*",
+      origin: true,
       credentials: true,
     })
   )

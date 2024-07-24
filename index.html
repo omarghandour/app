@@ -15,5 +15,22 @@
       <input type="file" name="file" required />
       <button type="submit">Upload</button>
     </form>
+    <script type="module">
+      {
+        const response = await fetch("http://localhost:3000/", {
+          credentials: "include",
+        });
+
+        console.log(await response);
+      }
+
+      {
+        const response = await fetch("http://localhost:3000/cookie", {
+          credentials: "include",
+        });
+
+        console.log(await response.text());
+      }
+    </script>
   </body>
 </html>
