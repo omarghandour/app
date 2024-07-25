@@ -67,8 +67,7 @@ const loginUser = async (body: body, set: any, jwt: any, auth: any) => {
       httpOnly: true,
       maxAge: 15 * 24 * 60 * 60,
       secure: true,
-      sameSite: "none",
-      path: "/",
+      sameSite: true,
     });
     set.status = 200;
     return { user };
