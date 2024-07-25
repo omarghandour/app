@@ -29,7 +29,7 @@ const app = new Elysia()
   )
   .use(
     cors({
-      origin: true,
+      origin: "localhost:3000",
       credentials: true,
     })
   )
