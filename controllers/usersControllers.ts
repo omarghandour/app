@@ -71,7 +71,7 @@ const loginUser = async (body: body, set: any, jwt: any, auth: any) => {
       path: "/users/login",
     });
     set.status = 200;
-    return { user: user, token: auth };
+    return { user };
   } catch (error: any) {
     set.status = 400;
     console.log(error.message);
