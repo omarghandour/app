@@ -9,14 +9,15 @@ import { tasks } from "../routes/tasksRoutes";
 const tokensec: any = process.env.JWT_SECRET;
 const app = new Elysia()
   .get("/", ({ cookie: { auth }, set }) => {
-    auth.set({
-      value: "await token",
-      httpOnly: true,
-      maxAge: 15 * 24 * 60 * 60,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-    });
+    // auth.set({
+    //   value: "await token",
+    //   httpOnly: true,
+    //   maxAge: 15 * 24 * 60 * 60,
+    //   secure: true,
+    //   sameSite: "none",
+    //   path: "/",
+    // });
+    return "Hello, From Elysia!";
   })
   .listen(3000)
   .use(
