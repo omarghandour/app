@@ -84,7 +84,7 @@ const loginUser = async (
         httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
         secure: true,
-        sameSite: true,
+        sameSite: false,
         path: "/",
       });
     }
