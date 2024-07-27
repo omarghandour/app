@@ -74,8 +74,8 @@ const loginUser = async (
         value: await token,
         httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         path: "/",
       });
     } else {
@@ -83,8 +83,8 @@ const loginUser = async (
         value: await token,
         httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         path: "/",
       });
     }
