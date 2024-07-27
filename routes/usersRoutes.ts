@@ -2,6 +2,7 @@ import Elysia, { t } from "elysia";
 import jwt from "@elysiajs/jwt";
 
 import { createUser, loginUser, signUP } from "../controllers/usersControllers";
+import User from "../models/UserModel";
 const tokensec: any = process.env.JWT_SECRET;
 
 export const users = new Elysia({ prefix: "/users" });
@@ -29,8 +30,8 @@ users
   ) // no roles register
   .post(
     "/login",
-    ({ cookie: { auth }, body, set, jwt }: any) =>
-      loginUser(body, set, jwt, auth),
+    ({ cookie: { auth, user }, body, set, jwt }: any) =>
+      loginUser(body, set, jwt, auth, user),
     {
       body: t.Object({
         username: t.String(),
@@ -38,6 +39,17 @@ users
       }),
     }
   ) // no roles login
+  .get("/allUsers", async () => await User.find())
+  .get("/getuser/:id", async ({ params, set }: any) => {
+    try {
+      const user = await User.findById(params.id);
+      set.status = 200;
+      return { user };
+    } catch (error: any) {
+      console.log(error.message);
+      return error.message;
+    }
+  })
   .post(
     "/signup",
     ({ cookie: { auth }, body, set, jwt }: any) => signUP(body, set, jwt, auth),

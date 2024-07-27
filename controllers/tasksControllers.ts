@@ -3,27 +3,42 @@ import User from "../models/UserModel";
 
 // tasks
 
-const createTask = async (body: any, set: any, params: any) => {
-  const { title, description, attachment, deadlineDate, assignedTo } = body;
-  console.log(deadlineDate);
+const createTask = async (body: any, set: any, params: any, jwt: any) => {
+  const { title, description, deadlineDate, assignedTo } = body;
+  // console.log(deadlineDate);
 
   const { id } = params;
+  const deauth = await jwt.verify(assignedTo);
+  const assignedToName = await User.findById(id);
+  const creatorName = await User.findById(deauth.id);
   try {
     const task = new Task({
       title,
       description: description,
-      attachment,
       deadlineDate,
-      assignedTo,
-      creator: id,
+      assignedTo: id,
+      creator: deauth.id,
+      creatorName: creatorName?.username,
+      assignedToName: assignedToName?.username,
     });
     await task.save();
     set.status = 201;
-    return task;
-  } catch (error) {
+    return "task";
+  } catch (error: any) {
+    set.status = 500;
+    console.error(error.message);
+    return { message: "Failed to create task" };
+  }
+};
+const getAllTasks = async (set: any) => {
+  try {
+    const tasks = await Task.find();
+    set.status = 200;
+    return tasks;
+  } catch (error: any) {
     set.status = 500;
     console.error(error);
-    return { message: "Failed to create task" };
+    return { message: "Failed to get all tasks", error: error.message };
   }
 };
 const updateTask = async (body: any, set: any, params: any) => {
@@ -75,7 +90,20 @@ const deleteTask = async (set: any, params: any) => {
     return { message: "Failed to delete task" };
   }
 };
+const usersTask = async (params: any, set: any, jwt: any) => {
+  const { id } = params;
+  try {
+    const user = await jwt.verify(id);
 
+    const tasks = await Task.find({ assignedTo: user.id });
+    set.status = 200;
+    return tasks;
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to get tasks for user" };
+  }
+};
 //
 //comments
 //
@@ -117,4 +145,12 @@ const deleteComment = async (params: any, set: any) => {
     return { message: "Failed to delete comment" };
   }
 };
-export { createTask, updateTask, deleteTask, addComment, deleteComment };
+export {
+  createTask,
+  getAllTasks,
+  updateTask,
+  deleteTask,
+  usersTask,
+  addComment,
+  deleteComment,
+};

@@ -4,7 +4,9 @@ import {
   createTask,
   deleteComment,
   deleteTask,
+  getAllTasks,
   updateTask,
+  usersTask,
 } from "../controllers/tasksControllers";
 
 export const tasks = new Elysia({ prefix: "/tasks" });
@@ -12,17 +14,18 @@ export const tasks = new Elysia({ prefix: "/tasks" });
 tasks
   .post(
     "/create/:id",
-    ({ body, set, params }) => createTask(body, set, params),
+    ({ body, set, params, jwt }: any) => createTask(body, set, params, jwt),
     {
       body: t.Object({
         title: t.String(),
         description: t.MaybeEmpty(t.String()),
-        attachment: t.MaybeEmpty(t.String()),
-        deadlineDate: t.MaybeEmpty(t.Date()),
+        // attachment: t.MaybeEmpty(t.String()),
+        deadlineDate: t.String(),
         assignedTo: t.String(),
       }),
     }
   ) // create a new task
+  .get("/", ({ set }) => getAllTasks(set))
   .patch(
     "/updateTask/:id",
     ({ body, set, params }) => updateTask(body, set, params),
@@ -51,4 +54,5 @@ tasks
   )
   .delete("/deleteComment/:CID", ({ params, set }) =>
     deleteComment(params, set)
-  );
+  )
+  .get("/:id", ({ params, set, jwt }: any) => usersTask(params, set, jwt));

@@ -13,7 +13,7 @@ const TaskSchema = new mongoose.Schema(
       ref: "File",
     },
     deadlineDate: {
-      type: Date,
+      type: String,
     },
     comments: [
       {
@@ -44,6 +44,8 @@ const TaskSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    creatorName: String,
+    assignedToName: String,
     updatedAt: {
       type: Date,
       default: Date.now,

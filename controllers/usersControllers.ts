@@ -32,14 +32,15 @@ const createUser = async (body: any, set: any, jwt: any, auth: any) => {
     });
     user.save();
     const token = jwt.sign({ id: user._id });
-    auth.set({
-      value: await token,
-      httpOnly: true,
-      maxAge: 15 * 24 * 60 * 60,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-    });
+
+    // auth.set({
+    //   value: await token,
+    //   httpOnly: true,
+    //   maxAge: 15 * 24 * 60 * 60,
+    //   secure: true,
+    //   sameSite: "none",
+    //   path: "/dashboard",
+    // });
     set.status = 201;
     return { user: user, token: auth };
   } catch (error: any) {
@@ -47,7 +48,13 @@ const createUser = async (body: any, set: any, jwt: any, auth: any) => {
     return error.message;
   }
 }; // no roles register
-const loginUser = async (body: body, set: any, jwt: any, auth: any) => {
+const loginUser = async (
+  body: body,
+  set: any,
+  jwt: any,
+  auth: any,
+  userr: any
+) => {
   const { username, password }: any = body;
   try {
     const user = await User.findOne({ username });
@@ -62,13 +69,26 @@ const loginUser = async (body: body, set: any, jwt: any, auth: any) => {
       return "Invalid username or password";
     }
     const token = jwt.sign({ id: user._id });
-    auth.set({
-      value: await token,
-      httpOnly: true,
-      maxAge: 15 * 24 * 60 * 60,
-      secure: true,
-      sameSite: true,
-    });
+    if (user.role !== "user") {
+      auth.set({
+        value: await token,
+        httpOnly: true,
+        maxAge: 15 * 24 * 60 * 60,
+        secure: true,
+        sameSite: true,
+        path: "/",
+      });
+    } else {
+      userr.set({
+        value: await token,
+        httpOnly: true,
+        maxAge: 15 * 24 * 60 * 60,
+        secure: true,
+        sameSite: true,
+        path: "/",
+      });
+    }
+
     set.status = 200;
     return { user };
   } catch (error: any) {
