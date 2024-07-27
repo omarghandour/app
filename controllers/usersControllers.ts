@@ -76,6 +76,8 @@ const loginUser = async (
         maxAge: 15 * 24 * 60 * 60,
         secure: true,
         sameSite: "none",
+        partitioned: true,
+        // Partitioned: true,
         path: "/",
       });
     } else {
@@ -85,6 +87,8 @@ const loginUser = async (
         maxAge: 15 * 24 * 60 * 60,
         secure: true,
         sameSite: "none",
+        partitioned: true,
+        // Partitioned: true,
         path: "/",
       });
     }
