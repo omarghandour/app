@@ -75,10 +75,8 @@ const loginUser = async (
         httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
         secure: true,
-        sameSite: "none",
+        sameSite: "lax",
         path: "/",
-        Partitioned: true,
-        partitioned: true,
       });
     } else {
       userr.set({
@@ -86,10 +84,8 @@ const loginUser = async (
         httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
         secure: true,
-        sameSite: "none",
+        sameSite: "lax",
         path: "/",
-        Partitioned: true,
-        partitioned: true,
       });
     }
 
