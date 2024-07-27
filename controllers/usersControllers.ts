@@ -77,6 +77,8 @@ const loginUser = async (
         secure: true,
         sameSite: "none",
         path: "/",
+        Partitioned: true,
+        partitioned: true,
       });
     } else {
       userr.set({
@@ -86,6 +88,8 @@ const loginUser = async (
         secure: true,
         sameSite: "none",
         path: "/",
+        Partitioned: true,
+        partitioned: true,
       });
     }
 
