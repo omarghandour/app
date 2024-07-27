@@ -29,7 +29,7 @@ const app = new Elysia()
   )
   .use(
     cors({
-      origin: "localhost",
+      origin: "https://fronturamsys.vercel.app",
       credentials: true,
     })
   )
