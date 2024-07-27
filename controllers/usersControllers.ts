@@ -74,7 +74,7 @@ const loginUser = async (
         value: await token,
         httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
-        secure: true,
+        secure: false,
         sameSite: "lax",
         path: "/",
       });
@@ -83,7 +83,7 @@ const loginUser = async (
         value: await token,
         httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
-        secure: true,
+        secure: false,
         sameSite: "lax",
         path: "/",
       });
