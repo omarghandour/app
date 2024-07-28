@@ -72,18 +72,18 @@ const loginUser = async (
 
     if (user.role !== "user") {
       auth.value = await token;
-      auth.httpOnly = false;
+      auth.httpOnly = true;
       auth.maxAge = 15 * 24 * 60 * 60;
       auth.secure = true;
       auth.sameSite = "none";
       auth.path = "/";
     } else {
       userr.value = await token;
-      userr.httpOnly = false;
+      userr.httpOnly = true;
       userr.maxAge = 15 * 24 * 60 * 60;
       userr.secure = true;
       userr.sameSite = "none";
-      userr.path = "/";
+      // userr.path = "/";
     }
 
     set.status = 200;
