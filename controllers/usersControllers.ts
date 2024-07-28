@@ -76,20 +76,19 @@ const loginUser = async (
         maxAge: 15 * 24 * 60 * 60,
         secure: true,
         sameSite: "none",
-        partitioned: true,
-        CrossSite: true,
+        // partitioned: true,
+        // CrossSite: true,
         // Partitioned: true,
         path: "/",
       });
     } else {
       userr.set({
         value: await token,
-        httpOnly: true,
         maxAge: 15 * 24 * 60 * 60,
         secure: true,
         sameSite: "none",
-        CrossSite: true,
-        partitioned: true,
+        // CrossSite: true,
+        // partitioned: true,
         // Partitioned: true,
         path: "/",
       });

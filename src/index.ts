@@ -17,6 +17,7 @@ const app = new Elysia()
     //   sameSite: "none",
     //   path: "/",
     // });
+    // https://fronturamsys.vercel.app
     return "Hello, From Elysia!";
   })
   .listen(3000)
