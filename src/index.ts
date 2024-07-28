@@ -30,7 +30,7 @@ const app = new Elysia()
   )
   .use(
     cors({
-      origin: "https://fronturamsys.vercel.app",
+      origin: true,
       credentials: true,
     })
   )
