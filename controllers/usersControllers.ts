@@ -85,6 +85,7 @@ const loginUser = async (
       userr.set({
         value: await token,
         maxAge: 15 * 24 * 60 * 60,
+        httpOnly: false,
         secure: true,
         sameSite: "none",
         // CrossSite: true,
