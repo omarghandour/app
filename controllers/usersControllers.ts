@@ -86,9 +86,9 @@ const loginUser = async (
       userr.sameSite = "none";
       userr.path = "/";
     }
-
+    const nn = user.role !== "user" ? { auth: token } : { userr: token };
     set.status = 200;
-    return { user, token };
+    return { user, nn };
   } catch (error: any) {
     set.status = 400;
     console.log(error.message);
