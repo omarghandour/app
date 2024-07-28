@@ -1,4 +1,5 @@
 import User from "../models/UserModel";
+import * as jose from "jose";
 type body = {
   name: string;
   username: string;
@@ -68,7 +69,7 @@ const loginUser = async (
       set.status = 401;
       return "Invalid username or password";
     }
-    const token = jwt.sign({ id: user._id });
+    const token = jwt.sign({ id: user._id, role: user.role });
 
     if (user.role !== "user") {
       auth.value = await token;
@@ -87,7 +88,7 @@ const loginUser = async (
     }
 
     set.status = 200;
-    return { user, token: auth ? auth : userr };
+    return { user, token };
   } catch (error: any) {
     set.status = 400;
     console.log(error.message);
