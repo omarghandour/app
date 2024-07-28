@@ -69,23 +69,21 @@ const loginUser = async (
       return "Invalid username or password";
     }
     const token = jwt.sign({ id: user._id });
+
     if (user.role !== "user") {
-      auth.set({
-        value: await token,
-        httpOnly: true,
-        maxAge: 15 * 24 * 60 * 60,
-        secure: true,
-        sameSite: "none",
-        path: "/",
-      });
+      auth.value = await token;
+      auth.httpOnly = false;
+      auth.maxAge = 15 * 24 * 60 * 60;
+      auth.secure = true;
+      auth.sameSite = "none";
+      auth.path = "/";
     } else {
-      userr.set({
-        value: await token,
-        maxAge: 15 * 24 * 60 * 60,
-        secure: true,
-        sameSite: "none",
-        path: "/",
-      });
+      userr.value = await token;
+      userr.httpOnly = false;
+      userr.maxAge = 15 * 24 * 60 * 60;
+      userr.secure = true;
+      userr.sameSite = "none";
+      userr.path = "/";
     }
 
     set.status = 200;
