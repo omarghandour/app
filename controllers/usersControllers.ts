@@ -83,11 +83,11 @@ const loginUser = async (
       userr.maxAge = 15 * 24 * 60 * 60;
       userr.secure = true;
       userr.sameSite = "none";
-      // userr.path = "/";
+      userr.path = "/";
     }
 
     set.status = 200;
-    return { user };
+    return { user, token: auth ? auth : userr };
   } catch (error: any) {
     set.status = 400;
     console.log(error.message);
