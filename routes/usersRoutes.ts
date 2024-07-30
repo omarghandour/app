@@ -50,6 +50,21 @@ users
       return error.message;
     }
   })
+  .get("/oneUser/:id", async ({ params, set, jwt }: any) => {
+    try {
+      const id = await jwt.verify(params.id);
+      const user = await User.findById(id);
+      if (!user) {
+        set.status = 404;
+        return { message: "User not found" };
+      }
+      set.status = 200;
+      return { user };
+    } catch (error: any) {
+      set.status = 500;
+      console.log(error.message);
+    }
+  })
   .post(
     "/signup",
     ({ cookie: { auth }, body, set, jwt }: any) => signUP(body, set, jwt, auth),
