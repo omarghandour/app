@@ -113,7 +113,7 @@ const taskById = async (params: any, set: any, jwt: any) => {
       return { message: "Task not found" };
     }
     set.status = 200;
-    return task;
+    return { task };
   } catch (error) {
     set.status = 500;
     console.error(error);
