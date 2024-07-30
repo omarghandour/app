@@ -53,7 +53,7 @@ users
   .get("/oneUser/:id", async ({ params, set, jwt }: any) => {
     try {
       const id = await jwt.verify(params.id);
-      const user = await User.findById(id);
+      const user = await User.findById(id.id);
       if (!user) {
         set.status = 404;
         return { message: "User not found" };
