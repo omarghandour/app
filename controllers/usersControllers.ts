@@ -69,7 +69,7 @@ const loginUser = async (
       set.status = 401;
       return "Invalid username or password";
     }
-    const token = await jwt.sign({ id: user._id, role: user.role });
+    const token = await jwt.sign({ id: user._id });
 
     if (user.role !== "user") {
       auth.value = await token;
