@@ -104,6 +104,22 @@ const usersTask = async (params: any, set: any, jwt: any) => {
     return { message: "Failed to get tasks for user" };
   }
 };
+const taskById = async (params: any, set: any, jwt: any) => {
+  const { id } = params;
+  try {
+    const task = await Task.findById(id);
+    if (!task) {
+      set.status = 404;
+      return { message: "Task not found" };
+    }
+    set.status = 200;
+    return task;
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to get task by ID" };
+  }
+};
 //
 //comments
 //
@@ -151,6 +167,7 @@ export {
   updateTask,
   deleteTask,
   usersTask,
+  taskById,
   addComment,
   deleteComment,
 };

@@ -5,6 +5,7 @@ import {
   deleteComment,
   deleteTask,
   getAllTasks,
+  taskById,
   updateTask,
   usersTask,
 } from "../controllers/tasksControllers";
@@ -55,4 +56,5 @@ tasks
   .delete("/deleteComment/:CID", ({ params, set }) =>
     deleteComment(params, set)
   )
-  .get("/:id", ({ params, set, jwt }: any) => usersTask(params, set, jwt));
+  .get("/:id", ({ params, set, jwt }: any) => usersTask(params, set, jwt))
+  .get("/task/:id", ({ params, set, jwt }: any) => taskById(params, set, jwt));
