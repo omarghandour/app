@@ -91,13 +91,23 @@ const deleteTask = async (set: any, params: any) => {
   }
 };
 const usersTask = async (params: any, set: any, jwt: any) => {
-  const { id } = params;
+  const { id, role } = params;
   try {
     const user = await jwt.verify(id);
-
-    const tasks = await Task.find({ assignedTo: user.id });
-    set.status = 200;
-    return tasks;
+    // const tasks = await Task.find({ assignedTo: user.id });
+    if (user.role === "admin") {
+      const tasks = await Task.find({ creator: user.id });
+      set.status = 200;
+      return tasks;
+    } else if (user.role === "user") {
+      const tasks = await Task.find({ assignedTo: user.id });
+      set.status = 200;
+      return tasks;
+    } else {
+      const tasks = await Task.find();
+      set.status = 200;
+      return tasks;
+    }
   } catch (error) {
     set.status = 500;
     console.error(error);

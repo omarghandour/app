@@ -58,5 +58,5 @@ tasks
   .delete("/deleteComment/:CID", ({ params, set }) =>
     deleteComment(params, set)
   )
-  .get("/:id", ({ params, set, jwt }: any) => usersTask(params, set, jwt))
+  .get("/:id/:role", ({ params, set, jwt }: any) => usersTask(params, set, jwt))
   .get("/task/:id", ({ params, set, jwt }: any) => taskById(params, set, jwt));
