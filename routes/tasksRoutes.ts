@@ -1,6 +1,7 @@
 import Elysia, { t } from "elysia";
 import {
   addComment,
+  Approved,
   createTask,
   deleteComment,
   deleteTask,
@@ -66,4 +67,7 @@ tasks
   )
   .patch("task/reject/:id", ({ params, set, jwt }: any) =>
     taskReject(params, set, jwt)
+  )
+  .delete("task/:id", ({ params, set, jwt }: any) =>
+    Approved(params, set, jwt)
   );
