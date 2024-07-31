@@ -5,6 +5,7 @@ import {
   deleteComment,
   deleteTask,
   getAllTasks,
+  setTaskStatus,
   taskById,
   updateTask,
   usersTask,
@@ -40,6 +41,7 @@ tasks
       }),
     }
   ) // update a task by id
+  .patch("/taskStatus/:id", ({ set, params }) => setTaskStatus(set, params))
   .delete("/delete/:userID/:taskID", ({ set, params }) =>
     deleteTask(set, params)
   )

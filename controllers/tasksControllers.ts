@@ -120,6 +120,22 @@ const taskById = async (params: any, set: any, jwt: any) => {
     return { message: "Failed to get task by ID" };
   }
 };
+const setTaskStatus = async (params: any, set: any) => {
+  const { taskID } = params;
+  try {
+    const task = await Task.findByIdAndUpdate(taskID, { status: "completed" });
+    if (!task) {
+      set.status = 404;
+      return { message: "Task not found" };
+    }
+    set.status = 200;
+    return { task };
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to update task status" };
+  }
+};
 //
 //comments
 //
@@ -167,6 +183,7 @@ export {
   updateTask,
   deleteTask,
   usersTask,
+  setTaskStatus,
   taskById,
   addComment,
   deleteComment,
