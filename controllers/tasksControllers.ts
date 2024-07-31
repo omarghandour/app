@@ -95,15 +95,17 @@ const usersTask = async (params: any, set: any, jwt: any) => {
   try {
     const user = await jwt.verify(id);
     // const tasks = await Task.find({ assignedTo: user.id });
-    if (user.role === "admin") {
+    if (role === "admin") {
       const tasks = await Task.find({ creator: user.id });
       set.status = 200;
       return tasks;
-    } else if (user.role === "user") {
+    }
+    if (role === "user") {
       const tasks = await Task.find({ assignedTo: user.id });
       set.status = 200;
       return tasks;
-    } else {
+    }
+    if (role === "manager") {
       const tasks = await Task.find();
       set.status = 200;
       return tasks;
