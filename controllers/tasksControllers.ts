@@ -97,23 +97,23 @@ const usersTask = async (params: any, set: any, jwt: any) => {
     // const tasks = await Task.find({ assignedTo: user.id });
     if (role === "admin") {
       const tasks = await Task.find({ creator: user.id })
-        .sort({ createdAt: "desc" })
+        .sort({ updatedAt: "desc" })
         .exec();
       const tasksT = await Task.find({ assignedTo: user.id })
-        .sort({ createdAt: "desc" })
+        .sort({ updatedAt: "desc" })
         .exec();
       set.status = 200;
       return { tasks: tasks, tasksT: tasksT };
     }
     if (role === "user") {
       const tasks = await Task.find({ assignedTo: user.id, status: "pending" })
-        .sort({ createdAt: "desc" })
+        .sort({ updatedAt: "desc" })
         .exec();
       set.status = 200;
       return { tasks: tasks, tasksT: undefined };
     }
     if (role === "manager") {
-      const tasks = await Task.find().sort({ createdAt: "desc" }).exec();
+      const tasks = await Task.find().sort({ updatedAt: "desc" }).exec();
       set.status = 200;
       return { tasks: tasks, tasksT: undefined };
     }
