@@ -97,8 +97,9 @@ const usersTask = async (params: any, set: any, jwt: any) => {
     // const tasks = await Task.find({ assignedTo: user.id });
     if (role === "admin") {
       const tasks = await Task.find({ creator: user.id });
+      const tasksT = await Task.find({ assignedTo: user.id });
       set.status = 200;
-      return tasks;
+      return { tasks: tasks, tasksT: tasksT };
     }
     if (role === "user") {
       const tasks = await Task.find({ assignedTo: user.id, status: "pending" });
