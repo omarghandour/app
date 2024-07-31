@@ -110,12 +110,12 @@ const usersTask = async (params: any, set: any, jwt: any) => {
         .sort({ createdAt: "asc" })
         .exec();
       set.status = 200;
-      return tasks;
+      return { tasks: tasks, tasksT: undefined };
     }
     if (role === "manager") {
       const tasks = await Task.find().sort({ createdAt: "asc" }).exec();
       set.status = 200;
-      return tasks;
+      return { tasks: tasks, tasksT: undefined };
     }
   } catch (error) {
     set.status = 500;
