@@ -133,7 +133,8 @@ const taskById = async (params: any, set: any, jwt: any) => {
   }
 };
 const setTaskStatus = async (params: any, set: any, jwt: any) => {
-  const { taskID } = params;
+  const taskID = params.id;
+  console.log(taskID);
   try {
     const task = await Task.findByIdAndUpdate(taskID, { status: "completed" });
     if (!task) {
