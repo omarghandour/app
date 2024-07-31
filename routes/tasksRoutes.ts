@@ -7,6 +7,7 @@ import {
   getAllTasks,
   setTaskStatus,
   taskById,
+  taskReject,
   updateTask,
   usersTask,
 } from "../controllers/tasksControllers";
@@ -62,4 +63,7 @@ tasks
   .get("/task/:id", ({ params, set, jwt }: any) => taskById(params, set, jwt))
   .patch("task/:id", ({ params, set, jwt }: any) =>
     setTaskStatus(params, set, jwt)
+  )
+  .patch("task/reject/:id", ({ params, set, jwt }: any) =>
+    taskReject(params, set, jwt)
   );

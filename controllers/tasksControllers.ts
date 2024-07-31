@@ -149,6 +149,23 @@ const setTaskStatus = async (params: any, set: any, jwt: any) => {
     return { message: "Failed to update task status" };
   }
 };
+const taskReject = async (params: any, set: any, jwt: any) => {
+  const taskID = params.id;
+  console.log(taskID);
+  try {
+    const task = await Task.findByIdAndUpdate(taskID, { status: "pending" });
+    if (!task) {
+      set.status = 404;
+      return { message: "Task not found" };
+    }
+    set.status = 200;
+    return { task };
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to reject task" };
+  }
+};
 //
 //comments
 //
@@ -197,6 +214,7 @@ export {
   deleteTask,
   usersTask,
   setTaskStatus,
+  taskReject,
   taskById,
   addComment,
   deleteComment,
