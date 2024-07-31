@@ -41,7 +41,7 @@ tasks
       }),
     }
   ) // update a task by id
-  .patch("/taskStatus/:id", ({ set, params }) => setTaskStatus(set, params))
+  // .patch("/taskStatus/:id", ({ set, params }) => setTaskStatus(set, params))
   .delete("/delete/:userID/:taskID", ({ set, params }) =>
     deleteTask(set, params)
   )
@@ -59,4 +59,7 @@ tasks
     deleteComment(params, set)
   )
   .get("/:id/:role", ({ params, set, jwt }: any) => usersTask(params, set, jwt))
-  .get("/task/:id", ({ params, set, jwt }: any) => taskById(params, set, jwt));
+  .get("/task/:id", ({ params, set, jwt }: any) => taskById(params, set, jwt))
+  .patch("task/:id", ({ params, set, jwt }: any) =>
+    setTaskStatus(params, set, jwt)
+  );

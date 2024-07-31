@@ -101,7 +101,7 @@ const usersTask = async (params: any, set: any, jwt: any) => {
       return tasks;
     }
     if (role === "user") {
-      const tasks = await Task.find({ assignedTo: user.id });
+      const tasks = await Task.find({ assignedTo: user.id, status: "pending" });
       set.status = 200;
       return tasks;
     }
@@ -132,7 +132,7 @@ const taskById = async (params: any, set: any, jwt: any) => {
     return { message: "Failed to get task by ID" };
   }
 };
-const setTaskStatus = async (params: any, set: any) => {
+const setTaskStatus = async (params: any, set: any, jwt: any) => {
   const { taskID } = params;
   try {
     const task = await Task.findByIdAndUpdate(taskID, { status: "completed" });
