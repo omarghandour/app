@@ -6,6 +6,7 @@ import {
   deleteComment,
   deleteTask,
   getAllTasks,
+  getComments,
   setTaskStatus,
   taskById,
   taskReject,
@@ -56,6 +57,7 @@ tasks
       }),
     }
   )
+  .get("comment/:taskID", ({ set, params }) => getComments(set, params))
   .delete("/deleteComment/:CID", ({ params, set }) =>
     deleteComment(params, set)
   )

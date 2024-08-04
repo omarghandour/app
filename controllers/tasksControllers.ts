@@ -216,6 +216,22 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
     return { message: "Failed to add comment" };
   }
 };
+const getComments = async (set: any, params: any) => {
+  const { taskID } = params;
+  try {
+    const task = await Task.findById(taskID);
+    if (!task) {
+      set.status = 404;
+      return { message: "Task not found" };
+    }
+    set.status = 200;
+    return { comments: task.comments };
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to get comments" };
+  }
+};
 const deleteComment = async (params: any, set: any) => {
   const { CID } = params;
   try {
@@ -246,5 +262,6 @@ export {
   taskReject,
   taskById,
   addComment,
+  getComments,
   deleteComment,
 };
