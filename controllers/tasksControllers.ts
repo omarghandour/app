@@ -201,8 +201,10 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
   console.log(UID);
 
   try {
+    const user = await User.findOne({ _id: UID });
+    const uName = user?.name;
     const task = await Task.findByIdAndUpdate(taskID, {
-      $push: { comments: { content, UID } },
+      $push: { comments: { content, UID, uName } },
     });
     if (!task) {
       set.status = 404;
