@@ -202,7 +202,7 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
 
   try {
     const user = await User.findOne({ _id: UID });
-    const uName = user?.name;
+    const uName = user?.username;
     const task = await Task.findByIdAndUpdate(taskID, {
       $push: { comments: { content, UID, uName } },
     });
