@@ -17,7 +17,6 @@ const TaskSchema = new mongoose.Schema(
     },
     comments: [
       {
-        CName: { type: String, required: true },
         content: {
           type: String,
           required: true,

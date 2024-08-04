@@ -49,10 +49,9 @@ tasks
   )
   .post(
     "/addComment/:taskID/:userID",
-    ({ body, set, params }) => addComment(body, set, params),
+    ({ body, set, params, jwt }: any) => addComment(body, set, params, jwt),
     {
       body: t.Object({
-        CName: t.String(),
         content: t.String(),
       }),
     }

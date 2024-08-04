@@ -193,12 +193,16 @@ const Approved = async (params: any, set: any, jwt: any) => {
 //
 //comments
 //
-const addComment = async (body: any, set: any, params: any) => {
-  const { CName, content } = body;
+const addComment = async (body: any, set: any, params: any, jwt: any) => {
+  const { content } = body;
   const { taskID, userID } = params;
+  const verify = await jwt.verify(userID);
+  const UID = await verify.id;
+  console.log(UID);
+
   try {
     const task = await Task.findByIdAndUpdate(taskID, {
-      $push: { comments: { CName, content, userID } },
+      $push: { comments: { content, UID } },
     });
     if (!task) {
       set.status = 404;
