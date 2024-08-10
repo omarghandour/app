@@ -20,7 +20,6 @@ const filesUpload = async (body: any) => {
       // Handle the incoming body file
       const reader = file.stream().getReader();
       const chunks: Uint8Array[] = [];
-
       // Read from the web stream and gather chunks
       reader.read().then(function processText({ done, value }: any) {
         if (done) {
@@ -32,9 +31,8 @@ const filesUpload = async (body: any) => {
             data: buffer,
             contentType: file.type,
           });
-
           newFile.save();
-          console.log(newFile);
+          // console.log(newFile);
 
           return newFile;
         }
@@ -50,7 +48,9 @@ const filesUpload = async (body: any) => {
 };
 const getFile = async (params: any) => {
   const fileName = params.filename;
+
   const file = await File.findOne({ _id: fileName }).exec();
-  return file;
+  const ss = file?.data?.toString("base64");
+  return { data: ss, contentType: file?.contentType };
 };
 export { filesUpload, getFile };
