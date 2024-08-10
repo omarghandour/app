@@ -4,6 +4,7 @@ export const ss = new Elysia({ prefix: "/files" })
   .post("/s", ({ body }) => filesUpload(body), {
     body: t.Object({
       image: t.File(),
+      task: t.String(),
     }),
   })
   .get("s/:filename", ({ params }) => getFile(params));

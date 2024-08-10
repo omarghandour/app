@@ -11,7 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const filesUpload = async (body: any) => {
-  const file = body.image;
+  const { image: file, task } = body;
   return new Promise((resolve, reject) => {
     try {
       const fileName = file.name;
@@ -28,6 +28,7 @@ const filesUpload = async (body: any) => {
           // Save file to MongoDB
           const newFile = new File({
             name: fileName,
+            task,
             data: buffer,
             contentType: file.type,
           });
@@ -49,7 +50,7 @@ const filesUpload = async (body: any) => {
 const getFile = async (params: any) => {
   const fileName = params.filename;
 
-  const file = await File.findOne({ _id: fileName }).exec();
+  const file = await File.findOne({ task: fileName }).exec();
   const ss = file?.data?.toString("base64");
   return { data: ss, contentType: file?.contentType };
 };
