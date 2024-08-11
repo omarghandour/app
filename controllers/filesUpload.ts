@@ -71,13 +71,14 @@ const getFile = async (params: any) => {
   return { data: ss, contentType: file?.contentType };
 };
 const deleteFile = async (params: any, set: any) => {
-  const fileName = params.id;
+  const fileName = params.filename;
+  console.log(fileName);
 
   const deletedFile = await File.findOneAndDelete({ task: fileName }).exec();
   if (deletedFile) {
     set.status = 204;
   } else {
-    set.status = 404;
+    set.status = 400;
   }
   return deletedFile; // Return the deleted file (if any) or a 404 status if not found.
 };
