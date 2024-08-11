@@ -1,5 +1,5 @@
 import Elysia, { t } from "elysia";
-import { filesUpload, getFile } from "../controllers/filesUpload";
+import { deleteFile, filesUpload, getFile } from "../controllers/filesUpload";
 export const ss = new Elysia({ prefix: "/files" })
   .post("/s/:id", ({ body, params, set }) => filesUpload(body, params, set), {
     body: t.Object({
