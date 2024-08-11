@@ -10,40 +10,56 @@ interface UploadFile {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const filesUpload = async (body: any) => {
-  const { image: file, task } = body;
+const filesUpload = async (body: any, params: any, set: any) => {
+  const { file } = body;
+  const task = params.id;
   return new Promise((resolve, reject) => {
     try {
-      const fileName = file.name;
+      // Log the file type
       console.log("filetype", typeof file);
 
       // Handle the incoming body file
       const reader = file.stream().getReader();
       const chunks: Uint8Array[] = [];
+
       // Read from the web stream and gather chunks
-      reader.read().then(function processText({ done, value }: any) {
-        if (done) {
-          const buffer = Buffer.concat(chunks);
+      reader
+        .read()
+        .then(function processText({ done, value }: any) {
+          if (done) {
+            const buffer = Buffer.concat(chunks);
 
-          // Save file to MongoDB
-          const newFile = new File({
-            name: fileName,
-            task,
-            data: buffer,
-            contentType: file.type,
-          });
-          newFile.save();
-          // console.log(newFile);
+            // Save file to MongoDB
+            const newFile = new File({
+              name: file.name,
+              task,
+              data: buffer,
+              contentType: file.type,
+            });
 
-          return newFile;
-        }
-
-        chunks.push(value);
-        return reader.read().then(processText);
-      });
+            newFile
+              .save()
+              .then((savedFile) => {
+                // console.log(savedFile);
+                set.status = 201;
+                resolve(savedFile); // Resolve with the saved file
+              })
+              .catch((error) => {
+                console.error("Error saving file to MongoDB:", error);
+                reject(error); // Reject if saving to MongoDB fails
+              });
+          } else {
+            chunks.push(value);
+            reader.read().then(processText);
+          }
+        })
+        .catch((error: any) => {
+          console.error("Error reading file stream:", error);
+          reject(error); // Reject if reading from the stream fails
+        });
     } catch (error) {
       console.error("Error uploading file:", error);
-      reject(error);
+      reject(error); // Reject if any other error occurs
     }
   });
 };
