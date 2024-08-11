@@ -6,4 +6,5 @@ export const ss = new Elysia({ prefix: "/files" })
       file: t.File(),
     }),
   })
-  .get("s/:filename", ({ params }) => getFile(params));
+  .get("s/:filename", ({ params }) => getFile(params))
+  .delete("s/:filename", ({ params, set }) => deleteFile(params, set));

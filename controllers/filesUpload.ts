@@ -70,4 +70,15 @@ const getFile = async (params: any) => {
   const ss = file?.data?.toString("base64");
   return { data: ss, contentType: file?.contentType };
 };
-export { filesUpload, getFile };
+const deleteFile = async (params: any, set: any) => {
+  const fileName = params.id;
+
+  const deletedFile = await File.findOneAndDelete({ task: fileName }).exec();
+  if (deletedFile) {
+    set.status = 204;
+  } else {
+    set.status = 404;
+  }
+  return deletedFile; // Return the deleted file (if any) or a 404 status if not found.
+};
+export { filesUpload, getFile, deleteFile };
