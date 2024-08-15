@@ -72,7 +72,6 @@ const getFile = async (params: any) => {
 };
 const deleteFile = async (params: any, set: any) => {
   const fileName = params.filename;
-  console.log(fileName);
 
   const deletedFile = await File.findOneAndDelete({ task: fileName }).exec();
   if (deletedFile) {
