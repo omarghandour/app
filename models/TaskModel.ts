@@ -30,8 +30,8 @@ const TaskSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
-        Timestamp: true,
       },
+      { Timestamp: true },
     ],
     status: {
       type: String,
