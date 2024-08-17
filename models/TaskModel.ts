@@ -53,6 +53,7 @@ const TaskSchema = new mongoose.Schema(
     },
     creatorName: String,
     assignedToName: String,
+    read: Boolean,
     updatedAt: {
       type: Date,
       default: Date.now,
