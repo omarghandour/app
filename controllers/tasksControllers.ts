@@ -132,6 +132,8 @@ const taskById = async (params: any, set: any, jwt: any) => {
       set.status = 404;
       return { message: "Task not found" };
     }
+    task.read = true;
+    task.save();
     set.status = 200;
     return { task };
   } catch (error) {
