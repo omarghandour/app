@@ -259,9 +259,9 @@ const deleteComment = async (params: any, set: any) => {
 };
 const readTask = async (set: any, params: any, jwt: any) => {
   const { id } = params;
-  const user = await jwt.verify(id);
+  // const user = await jwt.verify(id);
   try {
-    const task = await Task.findById(user);
+    const task = await Task.findById(id);
     if (!task) {
       set.status = 404;
       return { message: "Task not found" };
