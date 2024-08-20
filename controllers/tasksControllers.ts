@@ -276,6 +276,25 @@ const readTask = async (set: any, params: any, jwt: any) => {
     return { message: "Failed to read tasks" };
   }
 };
+const commentTask = async (set: any, params: any, jwt: any) => {
+  const { id } = params;
+  // const user = await jwt.verify(id);
+  try {
+    const task = await Task.findById(id);
+    if (!task) {
+      set.status = 404;
+      return { message: "Task not found" };
+    }
+    task.read = false;
+    task.save();
+    set.status = 200;
+    return { task };
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to read tasks" };
+  }
+};
 export {
   createTask,
   getAllTasks,
@@ -290,4 +309,5 @@ export {
   getComments,
   deleteComment,
   readTask,
+  commentTask,
 };

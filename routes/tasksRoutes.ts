@@ -2,6 +2,7 @@ import Elysia, { t } from "elysia";
 import {
   addComment,
   Approved,
+  commentTask,
   createTask,
   deleteComment,
   deleteTask,
@@ -71,4 +72,7 @@ tasks
     taskReject(params, set, jwt)
   )
   .delete("task/:id", ({ params, set, jwt }: any) => Approved(params, set, jwt))
-  .get("/read/:id", ({ set, params, jwt }: any) => readTask(set, params, jwt));
+  .get("/read/:id", ({ set, params, jwt }: any) => readTask(set, params, jwt))
+  .get("/read/comment/:id", ({ params, set, jwt }: any) =>
+    commentTask(set, params, jwt)
+  );
