@@ -206,14 +206,9 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
   try {
     const user = await User.findOne({ _id: UID });
     const uName = user?.username;
-    const task = await Task.findByIdAndUpdate(
-      taskID,
-      {
-        $push: { comments: { content, UID, uName } },
-        $set: { read: false }, // Or any other value you'd like to update the `read` field with
-      },
-      { new: true } // This option returns the updated document
-    );
+    const task = await Task.findByIdAndUpdate(taskID, {
+      $push: { comments: { content, UID, uName } },
+    });
     if (!task) {
       set.status = 404;
       return { message: "Task not found" };
