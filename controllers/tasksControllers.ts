@@ -200,8 +200,7 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
   const { content } = body;
   const { taskID, userID } = params;
   const verify = await jwt.verify(userID);
-  const UID = await verify.id;
-  console.log(UID);
+  const UID = await verify?.id;
 
   try {
     const user = await User.findOne({ _id: UID });
