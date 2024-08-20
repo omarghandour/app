@@ -21,11 +21,11 @@ const TaskSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
-        userID: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
+        // userID: {
+        //   type: mongoose.Schema.Types.ObjectId,
+        //   ref: "User",
+        //   required: true,
+        // },
         uName: {
           type: String,
           required: true,
