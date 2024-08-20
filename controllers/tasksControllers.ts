@@ -200,14 +200,19 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
   const { content } = body;
   const { taskID, userID } = params;
   const verify = await jwt.verify(userID);
-  const UID = await verify?.id;
+  const UID = await verify.id;
+  console.log(UID);
 
   try {
     const user = await User.findOne({ _id: UID });
     const uName = user?.username;
-    const task = await Task.findByIdAndUpdate(taskID, {
-      $push: { comments: { content, UID, uName } },
-    });
+    const task = await Task.findById(taskID);
+
+    if (task) {
+      task.comments.push({ content, UID, uName });
+      task.read = false;
+      await task.save();
+    }
     if (!task) {
       set.status = 404;
       return { message: "Task not found" };
