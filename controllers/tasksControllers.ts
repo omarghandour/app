@@ -208,6 +208,7 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
 
     if (task) {
       task.comments.push({ content, UID, uName });
+      task.read = false;
       await task.save();
     }
     if (!task) {
