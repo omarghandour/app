@@ -132,8 +132,6 @@ const taskById = async (params: any, set: any, jwt: any) => {
       set.status = 404;
       return { message: "Task not found" };
     }
-    task.read = true;
-    task.save();
     set.status = 200;
     return { task };
   } catch (error) {
@@ -210,7 +208,6 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
 
     if (task) {
       task.comments.push({ content, UID, uName });
-      task.read = false;
       await task.save();
     }
     if (!task) {
@@ -260,6 +257,24 @@ const deleteComment = async (params: any, set: any) => {
     return { message: "Failed to delete comment" };
   }
 };
+const readTask = async (set: any, params: any) => {
+  const { id } = params;
+  try {
+    const task = await Task.findById(id);
+    if (!task) {
+      set.status = 404;
+      return { message: "Task not found" };
+    }
+    task.read = true;
+    task.save();
+    set.status = 200;
+    return { task };
+  } catch (error) {
+    set.status = 500;
+    console.error(error);
+    return { message: "Failed to read tasks" };
+  }
+};
 export {
   createTask,
   getAllTasks,
@@ -273,4 +288,5 @@ export {
   addComment,
   getComments,
   deleteComment,
+  readTask,
 };

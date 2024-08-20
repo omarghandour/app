@@ -7,6 +7,7 @@ import {
   deleteTask,
   getAllTasks,
   getComments,
+  readTask,
   setTaskStatus,
   taskById,
   taskReject,
@@ -69,6 +70,5 @@ tasks
   .patch("task/reject/:id", ({ params, set, jwt }: any) =>
     taskReject(params, set, jwt)
   )
-  .delete("task/:id", ({ params, set, jwt }: any) =>
-    Approved(params, set, jwt)
-  );
+  .delete("task/:id", ({ params, set, jwt }: any) => Approved(params, set, jwt))
+  .get("/read/:id", ({ set, params }: any) => readTask(set, params));
