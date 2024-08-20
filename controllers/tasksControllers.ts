@@ -257,10 +257,11 @@ const deleteComment = async (params: any, set: any) => {
     return { message: "Failed to delete comment" };
   }
 };
-const readTask = async (set: any, params: any) => {
+const readTask = async (set: any, params: any, jwt: any) => {
   const { id } = params;
+  const user = await jwt.verify(id);
   try {
-    const task = await Task.findById(id);
+    const task = await Task.findById(user);
     if (!task) {
       set.status = 404;
       return { message: "Task not found" };

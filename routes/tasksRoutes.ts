@@ -71,4 +71,4 @@ tasks
     taskReject(params, set, jwt)
   )
   .delete("task/:id", ({ params, set, jwt }: any) => Approved(params, set, jwt))
-  .get("/read/:id", ({ set, params }: any) => readTask(set, params));
+  .get("/read/:id", ({ set, params, jwt }: any) => readTask(set, params, jwt));
