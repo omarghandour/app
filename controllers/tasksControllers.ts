@@ -213,8 +213,13 @@ const addComment = async (body: any, set: any, params: any, jwt: any) => {
       set.status = 404;
       return { message: "Task not found" };
     }
+    if (task) {
+      const read = await Task.findByIdAndUpdate(taskID, {
+        read: false,
+      });
+      return { task };
+    }
     set.status = 201;
-    return { task };
   } catch (error) {
     set.status = 500;
     console.error(error);
