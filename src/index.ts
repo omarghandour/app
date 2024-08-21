@@ -6,6 +6,7 @@ import { ss } from "../routes/filesRoutes";
 import cors from "@elysiajs/cors";
 import jwt from "@elysiajs/jwt";
 import { tasks } from "../routes/tasksRoutes";
+import { websocket } from "../routes/wsRoutes";
 const tokensec: any = process.env.JWT_SECRET;
 const app = new Elysia()
   .get("/", ({ cookie: { auth }, set }) => {
@@ -37,7 +38,8 @@ const app = new Elysia()
   .use(swagger())
   .use(users)
   .use(ss)
-  .use(tasks);
+  .use(tasks)
+  .use(websocket);
 connectDB();
 
 console.log(
