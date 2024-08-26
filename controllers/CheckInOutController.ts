@@ -1,6 +1,5 @@
 import { CheckInOut } from "../models/CheckInOut";
 import { CheckInOutOnline } from "../models/CheckInOutOnline";
-import User from "../models/UserModel";
 const getCurrentTimeEgypt = () => {
   const egyptTime = new Intl.DateTimeFormat("en-US", {
     timeZone: "Africa/Cairo",
@@ -63,6 +62,7 @@ const CheckIn = async (set: any, params: any) => {
   });
 
   if (existingCheckIn) {
+    set.status = 403;
     return { message: "You have already checked in today!" };
   }
 
@@ -74,6 +74,7 @@ const CheckIn = async (set: any, params: any) => {
       userId,
       history: [],
     });
+    set.status = 200;
   }
 
   checkInOut.history.push({
@@ -81,7 +82,7 @@ const CheckIn = async (set: any, params: any) => {
     checkOutTime: null, // Explicitly set checkOutTime to null to avoid confusion
   });
   await checkInOut.save();
-
+  set.status = 200;
   return { message: "Checked in successfully!" };
 };
 
@@ -90,6 +91,7 @@ const CheckOut = async (set: any, params: any) => {
   let checkInOut = await CheckInOut.findOne({ userId });
 
   if (!checkInOut || checkInOut.history.length === 0) {
+    set.status = 403;
     return { message: "You need to check in first!" };
   }
 
@@ -97,6 +99,7 @@ const CheckOut = async (set: any, params: any) => {
   const lastEntry = checkInOut.history[checkInOut.history.length - 1];
 
   if (lastEntry.checkOutTime) {
+    set.status = 403;
     return { message: "You are already checked out!" };
   }
 
@@ -123,6 +126,7 @@ const CheckInOnline = async (set: any, params: any) => {
   });
 
   if (existingCheckIn) {
+    set.status = 403;
     return { message: "You have already checked in today!" };
   }
 
@@ -134,6 +138,7 @@ const CheckInOnline = async (set: any, params: any) => {
       userId,
       history: [],
     });
+    set.status = 200;
   }
 
   checkInOut.history.push({
@@ -141,7 +146,7 @@ const CheckInOnline = async (set: any, params: any) => {
     checkOutTime: null, // Explicitly set checkOutTime to null to avoid confusion
   });
   await checkInOut.save();
-
+  set.status = 200;
   return { message: "Checked in successfully!" };
 };
 const CheckOutOnline = async (set: any, params: any) => {
@@ -149,6 +154,7 @@ const CheckOutOnline = async (set: any, params: any) => {
   let checkInOut = await CheckInOutOnline.findOne({ userId });
 
   if (!checkInOut || checkInOut.history.length === 0) {
+    set.status = 403;
     return { message: "You need to check in first!" };
   }
 
@@ -156,6 +162,7 @@ const CheckOutOnline = async (set: any, params: any) => {
   const lastEntry = checkInOut.history[checkInOut.history.length - 1];
 
   if (lastEntry.checkOutTime) {
+    set.status = 403;
     return { message: "You are already checked out!" };
   }
 
