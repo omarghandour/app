@@ -9,8 +9,12 @@ import { tasks } from "../routes/tasksRoutes";
 import { websocket } from "../routes/wsRoutes";
 import { Check } from "../routes/chexkInOutRoutex";
 const tokensec: any = process.env.JWT_SECRET;
-const app = new Elysia()
-  .get("/", ({ cookie: { auth }, set }) => {
+
+export const Hello = async () => {
+  return "Hello, From Elysia!";
+};
+export const app = new Elysia()
+  .get("/", ({ cookie: { auth }, set }) =>
     // auth.set({
     //   value: "await token",
     //   httpOnly: true,
@@ -20,8 +24,8 @@ const app = new Elysia()
     //   path: "/",
     // });
     // https://fronturamsys.vercel.app
-    return "Hello, From Elysia!";
-  })
+    Hello()
+  )
   .listen(3000)
   .use(
     jwt({
