@@ -38,6 +38,12 @@ const UserSchema = new mongoose.Schema(
         ref: "Task",
       },
     ],
+    checkInOuts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CheckInOut",
+      },
+    ],
   },
   { timestamps: true }
 );
