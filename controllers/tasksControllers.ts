@@ -189,7 +189,7 @@ const Approved = async (params: any, set: any, jwt: any) => {
       set.status = 404;
       return { message: "Task not found" };
     }
-    console.log(task);
+    // console.log(task);
 
     // Create a new ApprovedTask based on the task's data
     const approvedTask = new ApprovedTasks({
