@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+import { ApprovedTasks } from "../models/ApprovedTasks";
 import Task from "../models/TaskModel";
 import User from "../models/UserModel";
 
@@ -175,20 +177,45 @@ const taskReject = async (params: any, set: any, jwt: any) => {
   }
 };
 const Approved = async (params: any, set: any, jwt: any) => {
-  const taskID = params.id;
+  const { id: taskID } = params;
+  if (!mongoose.Types.ObjectId.isValid(taskID)) {
+    set.status = 400;
+    return { message: "Invalid Task ID" };
+  }
 
   try {
-    const task = await Task.findByIdAndDelete(taskID);
+    const task = await Task.findById(taskID);
     if (!task) {
       set.status = 404;
       return { message: "Task not found" };
     }
+    console.log(task);
+
+    // Create a new ApprovedTask based on the task's data
+    const approvedTask = new ApprovedTasks({
+      title: task.title,
+      description: task.description,
+      deadlineDate: task.deadlineDate,
+      comments: task.comments,
+      status: task.status,
+      assignedTo: task.assignedTo,
+      creator: task.creator,
+      creatorName: task.creatorName,
+      assignedToName: task.assignedToName,
+      read: task.read,
+      updatedAt: task.updatedAt,
+      createdAt: task.createdAt,
+    });
+    await approvedTask.save();
+
+    await task.deleteOne();
+
     set.status = 200;
-    return { message: "Task deleted successfully" };
+    return { message: "Task approved successfully" };
   } catch (error) {
     set.status = 500;
     console.error(error);
-    return { message: "Failed to reject task" };
+    return { message: "Failed to approve task" };
   }
 };
 //
