@@ -47,8 +47,10 @@ const endOfDayEgypt = () => {
 };
 
 // office
-const CheckIn = async (set: any, params: any) => {
-  const userId = await params.id;
+const CheckIn = async (set: any, params: any, jwt: any) => {
+  const hashedId = await params.id;
+  const id = await jwt.verify(hashedId);
+  const userId: any = id.id;
   const todayStart = startOfDayEgypt();
   const todayEnd = endOfDayEgypt();
 
@@ -86,8 +88,10 @@ const CheckIn = async (set: any, params: any) => {
   return { message: "Checked in successfully!" };
 };
 
-const CheckOut = async (set: any, params: any) => {
-  const userId = await params.id;
+const CheckOut = async (set: any, params: any, jwt: any) => {
+  const hashedId = await params.id;
+  const id = await jwt.verify(hashedId);
+  const userId: any = id.id;
   let checkInOut = await CheckInOut.findOne({ userId });
 
   if (!checkInOut || checkInOut.history.length === 0) {
@@ -111,8 +115,10 @@ const CheckOut = async (set: any, params: any) => {
   return { message: "Checked out successfully!" };
 };
 // online
-const CheckInOnline = async (set: any, params: any) => {
-  const userId = await params.id;
+const CheckInOnline = async (set: any, params: any, jwt: any) => {
+  const hashedId = await params.id;
+  const id = await jwt.verify(hashedId);
+  const userId: any = id.id;
   const todayStart = startOfDayEgypt();
   const todayEnd = endOfDayEgypt();
 
@@ -125,10 +131,10 @@ const CheckInOnline = async (set: any, params: any) => {
     },
   });
 
-  if (existingCheckIn) {
-    set.status = 403;
-    return { message: "You have already checked in today!" };
-  }
+  // if (existingCheckIn) {
+  //   set.status = 403;
+  //   return { message: "You have already checked in today!" };
+  // }
 
   let checkInOut = await CheckInOutOnline.findOne({ userId });
 
@@ -149,8 +155,10 @@ const CheckInOnline = async (set: any, params: any) => {
   set.status = 200;
   return { message: "Checked in successfully!" };
 };
-const CheckOutOnline = async (set: any, params: any) => {
-  const userId = await params.id;
+const CheckOutOnline = async (set: any, params: any, jwt: any) => {
+  const hashedId = await params.id;
+  const id = await jwt.verify(hashedId);
+  const userId: any = id.id;
   let checkInOut = await CheckInOutOnline.findOne({ userId });
 
   if (!checkInOut || checkInOut.history.length === 0) {

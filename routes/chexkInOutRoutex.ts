@@ -8,11 +8,15 @@ import {
 
 export const Check = new Elysia({ prefix: "/check" });
 
-Check.post("check-in/:id", ({ set, params }) => CheckIn(set, params));
-Check.post("check-out/:id", ({ set, params }) => CheckOut(set, params));
-Check.post("check-in-online/:id", ({ set, params }) =>
-  CheckInOnline(set, params)
+Check.post("check-in/:id", ({ set, params, jwt }: any) =>
+  CheckIn(set, params, jwt)
 );
-Check.post("check-out-online/:id", ({ set, params }) =>
-  CheckOutOnline(set, params)
+Check.post("check-out/:id", ({ set, params, jwt }: any) =>
+  CheckOut(set, params, jwt)
+);
+Check.post("check-in-online/:id", ({ set, params, jwt }: any) =>
+  CheckInOnline(set, params, jwt)
+);
+Check.post("check-out-online/:id", ({ set, params, jwt }: any) =>
+  CheckOutOnline(set, params, jwt)
 );
